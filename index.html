@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ÐÐ°ÑÐ»Ð°Ð²Ð° â Feedback</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #FFFDF0;
+            color: #1a1a1a;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        .card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 24px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 4px 20px rgba(220, 210, 180, 0.4);
+            box-sizing: border-box;
+        }
+        .step-content {
+            display: none !important;
+        }
+        .step-content.active {
+            display: block !important;
+        }
+        .step-counter {
+            font-size: 12px;
+            color: #86868b;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        h1, h2 {
+            font-size: 22px;
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        p {
+            font-size: 14px;
+            color: #48484a;
+            line-height: 1.4;
+        }
+        .table-badge {
+            display: inline-block;
+            background: #f7f5e6;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .emoji-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 24px;
+        }
+        .emoji-btn yj            font-size: 40px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s;
+            padding: 5px;
+        }
+        .emoji-btn:hover {
+            transform: scale(1.2);
+        }
+        .clarify-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .clarify-btn {
+            background: #f7f5e6;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 15px;
+            text-align: left;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+        .clarify-btn .icon {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        .back-btn {
+            background: none;
+            border: none;
+            color: #0071e3;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 0;
+        }
+        .prediction-text {
+            background: #fffdf5;
+            border-left: 4px solid #ff9500;
+            padding: 12px;
+            border-radius: 0 12px 12px 0;
+            font-size: 15px;
+            font-style: italic;
+            margin-top: 15px;
+            margin-bottom: 25px;
+        }
+        .site-review-form {
+            display: none;
+            margin-top: 15px;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            border: 1px solid #d2d2d7;
+            border-radius: 12px;
+            padding: 10px;
+            box-sizing: border-box;
+            font-size: 14px;
+            margin-top: 8px;
+            margin-bottom: 12px;
+            resize: none;
+        }
+        .btn-submit, .btn-maps {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            text-decoration: none;
+            box-sizing: border-box;
+            border: none;
+        }
+        .btn-submit {
+            background: #0071e3;
+            color: #fff;
+        }
+        .btn-maps {
+            margin-top: 10px;
+            display: none;
+        }
+        .yandex-btn { background: #fc0; color: #000; }
+        .gis-btn { background: #2ea701; color: #fff; }
+        #negative-contact {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+            background: #fff2f2;
+            padding: 12px;
+            border-radius: 12px;
+        }
+        #negative-contact a {
+            color: #ff3b30;
+            font-weight: 600;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div id="table-display">
+            <div class="table-badge">
+                ð½ï¸ Ð¡ÑÐ¾Ð» <span id="table-number-display">?</span>
+            </div>
+        </div>
+        <div id="step-rating" class="step-content active">
+            <div class="step-counter">Ð¨Ð°Ð³ 1 Ð¸Ð· 3</div>
+            <h1>ÐÐ°Ñ Ð²ÐµÑÐ´Ð¸ÐºÑ Ð¸Ð»Ð¸ ÑÑÐ´ÑÐ±Ð°? ðï¸</h1>
+            <p>ÐÑ Ð¿Ð¾Ð´Ð³Ð¾ÑÐ¾Ð²Ð¸Ð»Ð¸ Ð´Ð»Ñ ÑÐµÐ±Ñ ÑÐµÐºÑÐµÑÐ½Ð¾Ðµ Ð¿Ð¾ÑÐ»Ð°Ð½Ð¸Ðµ. ÐÐ¾Ð´ÐµÐ»Ð¸ÑÑ ÑÐ²Ð¾Ð¸Ð¼ Ð½Ð°ÑÑÑÐ¾ÐµÐ½Ð¸ÐµÐ¼ Ð¾Ñ Ð²Ð¸Ð·Ð¸ÑÐ°, ÑÑÐ¾Ð±Ñ Ð¾ÑÐºÑÑÑÑ ÐµÐ³Ð¾:</p>
+            <div class="emoji-group">
+                <button class="emoji-btn" onclick="selectRating('Ð£Ð¶Ð°ÑÐ½Ð¾')">ð</button>
+                <button class="emoji-btn" onclick="selectRating('ÐÐ¾ÑÐ¼Ð°Ð»ÑÐ½Ð¾')">ð</button>
+                <button class="emoji-btn" onclick="selectRating('Ð¥Ð¾ÑÐ¾ÑÐ¾')">ð</button>
+                <button class="emoji-btn" onclick="selectRating('ÐÐ¾ÑÑÐ¸ÑÐ¸ÑÐµÐ»ÑÐ½Ð¾')">ð¤©</button>
+            </div>
+        </div>
+        <div id="step-clarify" class="step-content">
+            <div class="step-counter">Ð¨Ð°Ð³ 2 Ð¸Ð· 3</div>
+            <h2 id="clarify-question">Ð§ÑÐ¾ Ð²Ð°Ð¼ Ð¿Ð¾Ð½ÑÐ°Ð²Ð¸Ð»Ð¾ÑÑ Ð±Ð¾Ð»ÑÑÐµ Ð²ÑÐµÐ³Ð¾?</h2>
+            <div class="clarify-options" id="clarify-options"></div>
+            <button class="back-btn" onclick="goBackToRating()">â ÐÐ°Ð·Ð°Ð´</button>
+        </div>
+        <div id="step-prediction" class="step-content">
+            <div class="step-counter">Ð¨Ð°Ð³ 3 Ð¸Ð· 3</div>
+            <p>Ð¢Ð²Ð¾Ñ ÐºÐ°ÑÐ¼Ð° Ð·Ð°ÑÑÐ¶ÐµÐ½Ð° â¨ Ð¢Ð²Ð¾Ðµ Ð¿Ð¾ÑÐ»Ð°Ð½Ð¸Ðµ:</p>
+            <div class="prediction-text" id="prediction-content"></div>
+
+            <div class="review-channels">
+                <div class="site-review-form" id="form-container">
+                    <label>ð ÐÐ°Ð¿Ð¸ÑÐ¸ÑÐµ, ÑÑÐ¾ Ð²Ð°Ð¼ Ð½Ðµ Ð¿Ð¾Ð½ÑÐ°Ð²Ð¸Ð»Ð¾ÑÑ:</label>
+                    <textarea id="guest-text" placeholder="Ð Ð°ÑÑÐºÐ°Ð¶Ð¸ÑÐµ ÑÐµÑÑÐ½Ð¾, ÑÑÐ¾ Ð¿Ð¾ÑÐ»Ð¾ Ð½Ðµ ÑÐ°Ðº... (Ð½ÐµÐ¾Ð±ÑÐ·Ð°ÑÐµÐ»ÑÐ½Ð¾)"></textarea>
+                    <button class="btn-submit" onclick="sendFinalFeedback()">ÐÑÐ¿ÑÐ°Ð²Ð¸ÑÑ Ð¾ÑÐ·ÑÐ²</button>
+                </div>
+                <a href="https://yandex.ru/maps/"
+                   target="_blank" class="btn-maps yandex-btn" id="yandex-link" onclick="logMapClick('Ð¯Ð½Ð´ÐµÐºÑ ÐÐ°ÑÑÑ')">ð ÐÐ°ÑÐ¸Ð°Ð½Ñ 2: Ð¯Ð½Ð´ÐµÐºÑ ÐÐ°ÑÑÑ</a>
+                <a href="https://2gis.ru/"
+                   target="_blank" class="btn-maps gis-btn" id="gis-link" onclick="logMapClick('2ÐÐÐ¡')">ð ÐÐ°ÑÐ¸Ð°Ð½Ñ 3: ÐÑÐ·ÑÐ² Ð² 2ÐÐÐ¡</a>
+            </div>
+            <div id="negative-contact">
+                <p>ð ÐÐ°Ð¼ Ð¾ÑÐµÐ½Ñ Ð¶Ð°Ð»Ñ. Ð¡Ð²ÑÐ¶Ð¸ÑÐµÑÑ Ñ Ð½Ð°Ð¼Ð¸ Ð½Ð°Ð¿ÑÑÐ¼ÑÑ:</p>
+                <p><a href="tel:+70000000000" id="phone-link">ð Ð¢ÐµÐ»ÐµÑÐ¾Ð½ ÑÐµÑÑÐ¾ÑÐ°Ð½Ð°</a></p>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Ð¡ÑÐ¾Ð»Ñ: 1â20, Ð¡1âÐ¡13, L1âL13 (Ð²ÑÐµÐ³Ð¾ 46)
+        const VALID_TABLES = (function() {
+            const list = [];
+            for (var i = 1; i <= 20; i++) list.push(String(i));
+            for (var s = 1; s <= 13; s++) list.push("\u0421" + s);
+            for (var l = 1; l <= 13; l++) list.push("L" + l);
+            return list;
+        })();
+
+        // ÐÐ¾ÑÐ»Ðµ ÑÐ°Ð·Ð²ÑÑÑÑÐ²Ð°Ð½Ð¸Ñ Apps Script â Web App Ð²ÑÑÐ°Ð²ÑÑÐµ URL ÑÑÐ´Ð°
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw37NE0odC8Y7iu84HUhJ8ztwwF-SF_sAWuzUMqwfPwQGCGf6LhuYueyTgsRqh5mEsqgQ/exec";
+        const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfs7lhg-M-RBpngB4W1vdC6hWfC93-k7_zyCQ0ugTp7tRLABg/formResponse";
+        const FIELD_RATING = "entry.2067768710";
+        const FIELD_COMMENT = "entry.515898556";
+        const FIELD_TABLE = "entry.1475558675";
+        const FIELD_CLARIFY = "entry.817565267";
+
+        let selectedTable = null;
+        let chosenRating = "";
+        let chosenClarify = "";
+
+        function normalizeTableParam(raw) {
+            if (!raw) return null;
+            var p = decodeURIComponent(String(raw)).trim();
+            if (/^\d+$/.test(p)) {
+                var n = parseInt(p, 10);
+                if (n >= 1 && n <= 20) return String(n);
+                return null;
+            }
+            var cMatch = p.match(/^[cC\u0421\u0441](\d+)$/i);
+            if (cMatch) {
+                var cNum = parseInt(cMatch[1], 10);
+                if (cNum >= 1 && cNum <= 13) return "\u0421" + cNum;
+                return null;
+            }
+            var lMatch = p.match(/^l(\d+)$/i);
+            if (lMatch) {
+                var lNum = parseInt(lMatch[1], 10);
+                if (lNum >= 1 && lNum <= 13) return "L" + lNum;
+                return null;
+            }
+            if (VALID_TABLES.indexOf(p) !== -1) return p;
+            return null;
+        }
+
+        function getTableFromQR() {
+            var urlParams = new URLSearchParams(window.location.search);
+            return normalizeTableParam(urlParams.get("table"));
+        }
+
+        function showStep(stepNumber) {
+            document.querySelectorAll(".step-content").forEach(function(el) {
+                el.classList.remove("active");
+            });
+            var stepMap = { 1: "step-rating", 2: "step-clarify", 3: "step-prediction" };
+            var activeId = stepMap[stepNumber];
+            if (activeId) {
+                document.getElementById(activeId).classList.add("active");
+            }
+        }
+
+        function selectRating(ratingValue) {
+            if (!selectedTable) {
+                alert("\u274c ÐÐ¾Ð¼ÐµÑ ÑÑÐ¾Ð»Ð° Ð½Ðµ Ð¾Ð¿ÑÐµÐ´ÐµÐ»ÐµÐ½. ÐÐ¾Ð¶Ð°Ð»ÑÐ¹ÑÑÐ°, Ð¾ÑÑÐºÐ°Ð½Ð¸ÑÑÐ¹ÑÐµ QR-ÐºÐ¾Ð´ Ð·Ð°Ð½Ð¾Ð²Ð¾.");
+                return;
+            }
+            chosenRating = ratingValue;
+
+            var isPositive = (ratingValue === "Ð¥Ð¾ÑÐ¾ÑÐ¾" || ratingValue === "ÐÐ¾ÑÑÐ¸ÑÐ¸ÑÐµÐ»ÑÐ½Ð¾");
+            var question = document.getElementById("clarify-question");
+            var optionsContainer = document.getElementById("clarify-options");
+            optionsContainer.innerHTML = "";
+
+            question.textContent = isPositive
+                ? "Ð§ÑÐ¾ Ð²Ð°Ð¼ Ð¿Ð¾Ð½ÑÐ°Ð²Ð¸Ð»Ð¾ÑÑ Ð±Ð¾Ð»ÑÑÐµ Ð²ÑÐµÐ³Ð¾?"
+                : "Ð§ÑÐ¾ Ð²Ð°Ð¼ Ð½Ðµ Ð¿Ð¾Ð½ÑÐ°Ð²Ð¸Ð»Ð¾ÑÑ Ð±Ð¾Ð»ÑÑÐµ Ð²ÑÐµÐ³Ð¾?";
+
+            var options = isPositive ? [
+                { label: "\ud83c\udf55 ÐÐ¾Ð½ÑÐ°Ð²Ð¸Ð»Ð°ÑÑ ÐºÑÑÐ½Ñ", icon: "\ud83c\udf55" },
+                { label: "\ud83d\udc68\u200d\ud83c\udf73 ÐÐ¾Ð½ÑÐ°Ð²Ð¸Ð»Ð¾ÑÑ Ð¾Ð±ÑÐ»ÑÐ¶Ð¸Ð²Ð°Ð½Ð¸Ðµ", icon: "\ud83d\udc68\u200d\ud83c\udf73" }
+            ] : [
+                { label: "\ud83c\udf55 ÐÐµ Ð¿Ð¾Ð½ÑÐ°Ð²Ð¸Ð»Ð°ÑÑ ÐºÑÑÐ½Ñ", icon: "\ud83c\udf55" },
+                { label: "\ud83d\udc68\u200d\ud83c\udf73 ÐÐµ Ð¿Ð¾Ð½ÑÐ°Ð²Ð¸Ð»Ð¾ÑÑ Ð¾Ð±ÑÐ»ÑÐ¶Ð¸Ð²Ð°Ð½Ð¸Ðµ", icon: "\ud83d\udc68\u200d\ud83c\udf73" }
+            ];
+
+            options.forEach(function(opt) {
+                var btn = document.createElement("button");
+                btn.className = "clarify-btn";
+                btn.innerHTML = "<span class=\"icon\">" + opt.icon + "</span> " + opt.label;
+                btn.onclick = function() { selectClarify(opt.label); };
+                optionsContainer.appendChild(btn);
+            });
+
+            showStep(2);
+        }
+
+        function selectClarify(clarifyLabel) {
+            chosenClarify = clarifyLabel;
+            submitToGoogleForm(chosenRating, chosenClarify, "ÐÑÐ±Ð¾Ñ ÑÐ´ÐµÐ»Ð°Ð½ (Ð¾Ð¶Ð¸Ð´Ð°Ð½Ð¸Ðµ Ð¨Ð°Ð³Ð° 3)", "\u23f3 Ð¨Ð°Ð³ 2/3: ÐÐµÑÐ²Ð¸ÑÐ½ÑÐ¹ Ð²ÑÐ±Ð¾Ñ");
+            showPrediction();
+        }
+
+        function goBackToRating() {
+            showStep(1);
+        }
+
+        var predictions = [
+            "Ð¡ÐµÐ³Ð¾Ð´Ð½Ñ Ð¸Ð´ÐµÐ°Ð»ÑÐ½ÑÐ¹ Ð´ÐµÐ½Ñ, ÑÑÐ¾Ð±Ñ Ð¿Ð¾Ð·Ð²Ð¾Ð»Ð¸ÑÑ ÑÐµÐ±Ðµ ÐµÑÑ Ð¾Ð´Ð¸Ð½ Ð´ÐµÑÐµÑÑ. ÐÐ²ÐµÐ·Ð´Ñ Ð¾Ð´Ð¾Ð±ÑÑÑÑ! \ud83c\udf70",
+            "Ð¢ÐµÐ±Ñ Ð¶Ð´ÐµÑ Ð½ÐµÐ¾Ð¶Ð¸Ð´Ð°Ð½Ð½Ð¾Ðµ, Ð½Ð¾ Ð¾ÑÐµÐ½Ñ Ð¿ÑÐ¸ÑÑÐ½Ð¾Ðµ Ð¸Ð·Ð²ÐµÑÑÐ¸Ðµ. ÐÑÐ´Ñ Ð½Ð°ÑÐµÐºÑ! \u2709\ufe0f",
+            "Ð¢Ð²Ð¾Ñ ÑÐ½ÐµÑÐ³Ð¸Ñ ÑÐµÐ³Ð¾Ð´Ð½Ñ Ð¿ÑÐ¸ÑÑÐ³Ð¸Ð²Ð°ÐµÑ ÑÐ´Ð°ÑÑ. ÐÐ¾Ð²ÐµÑÑÑÑ Ð¸Ð½ÑÑÐ¸ÑÐ¸Ð¸! \u2728",
+            "ÐÑÐ¾-ÑÐ¾ Ð¿ÑÑÐ¼Ð¾ ÑÐµÐ¹ÑÐ°Ñ Ð´ÑÐ¼Ð°ÐµÑ Ð¾ ÑÐµÐ±Ðµ Ñ ÑÐµÐ¿Ð»Ð¾ÑÐ¾Ð¹. \ud83e\udd70",
+            "Ð¡ÐµÐ³Ð¾Ð´Ð½Ñ Ð¾ÑÐ»Ð¸ÑÐ½ÑÐ¹ Ð²ÐµÑÐµÑ, ÑÑÐ¾Ð±Ñ Ð½Ð°ÑÐ»Ð°Ð´Ð¸ÑÑÑÑ Ð¼Ð¾Ð¼ÐµÐ½ÑÐ¾Ð¼. \ud83e\udd42",
+            "ÐÐ¿ÐµÑÐµÐ´Ð¸ ÐºÑÑÑÐ¾Ð¹ Ð¿Ð¾Ð²Ð¾ÑÐ¾Ñ, ÐºÐ¾ÑÐ¾ÑÑÐ¹ Ð¿ÑÐ¸Ð½ÐµÑÐµÑ ÑÐ°Ð´Ð¾ÑÑÑ! \ud83c\udf1f",
+            "Ð¢Ð²Ð¾Ðµ Ð³Ð°ÑÑÑÐ¾Ð½Ð¾Ð¼Ð¸ÑÐµÑÐºÐ¾Ðµ ÑÑÑÑÐµ ÑÐµÐ³Ð¾Ð´Ð½Ñ Ð½Ð° Ð²ÑÑÐ¾ÑÐµ! \ud83c\udf55"
+        ];
+
+        function showPrediction() {
+            var randomIndex = Math.floor(Math.random() * predictions.length);
+            document.getElementById("prediction-content").innerText = predictions[randomIndex];
+
+            var formBlock = document.getElementById("form-container");
+            var yandexLink = document.getElementById("yandex-link");
+            var gisLink = document.getElementById("gis-link");
+            var phoneBlock = document.getElementById("negative-contact");
+
+            if (chosenRating === "Ð£Ð¶Ð°ÑÐ½Ð¾" || chosenRating === "ÐÐ¾ÑÐ¼Ð°Ð»ÑÐ½Ð¾") {
+                formBlock.style.display = "block";
+                phoneBlock.style.display = "block";
+                yandexLink.style.display = "none";
+                gisLink.style.display = "none";
+            } else {
+                formBlock.style.display = "none";
+                phoneBlock.style.display = "none";
+                yandexLink.style.display = "block";
+                gisLink.style.display = "block";
+            }
+
+            showStep(3);
+        }
+
+        function logMapClick(mapName) {
+            submitToGoogleForm(chosenRating, chosenClarify, "ÐÐµÑÐµÑÐ¾Ð´ Ð½Ð° " + mapName, "\u2705 Ð¨Ð°Ð³ 3/3: ÐÐµÐ¹ÑÑÐ²Ð¸Ðµ Ð³Ð¾ÑÑÑ");
+        }
+
+        function sendFinalFeedback() {
+            if (!chosenRating || !selectedTable) return;
+
+            var commentText = document.getElementById("guest-text").value || "ÐÐµÐ· ÑÐµÐºÑÑÐ° ÐºÐ¾Ð¼Ð¼ÐµÐ½ÑÐ°ÑÐ¸Ñ";
+            submitToGoogleForm(chosenRating, chosenClarify, commentText, "\ud83d\udea8 Ð¨Ð°Ð³ 3/3: Ð¤Ð¸Ð½Ð°Ð»ÑÐ½ÑÐ¹ Ð¾ÑÐ·ÑÐ²");
+
+            document.getElementById("form-container").innerHTML =
+                "<div style='text-align:center; color:#1a1a1a; font-size:14px; padding:10px; font-weight:bold;'>" +
+                "\u2714\ufe0f ÐÑÐ·ÑÐ² ÑÑÐ¿ÐµÑÐ½Ð¾ ÑÐ¾ÑÑÐ°Ð½ÐµÐ½!<br>" +
+                "<span style='font-size:12px; color:#777;'>Ð¡Ð¿Ð°ÑÐ¸Ð±Ð¾, ÑÑÐ¾ Ð¿Ð¾Ð¼Ð¾Ð³Ð°ÐµÑÐµ Ð½Ð°Ð¼ ÑÑÐ°ÑÑ Ð»ÑÑÑÐµ! \ud83d\ude4f</span>" +
+                "</div>";
+        }
+
+        function submitToGoogleForm(rating, clarify, comment, stepStatus) {
+            var payload = {
+                rating: rating,
+                clarify: clarify,
+                comment: comment,
+                stepStatus: stepStatus,
+                table: selectedTable
+            };
+
+            if (WEB_APP_URL && WEB_APP_URL.indexOf("WEB_APP_URL_PLACEHOLDER") === -1) {
+                fetch(WEB_APP_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify(payload)
+                }).catch(function() {});
+                return;
+            }
+
+            var body = new FormData();
+            body.append(FIELD_RATING, rating);
+            body.append(FIELD_CLARIFY, clarify);
+            body.append(FIELD_COMMENT, comment + " [" + stepStatus + "]");
+            body.append(FIELD_TABLE, selectedTable);
+            fetch(FORM_URL, { method: "POST", mode: "no-cors", body: body }).catch(function() {});
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var tableId = getTableFromQR();
+            if (tableId) {
+                selectedTable = tableId;
+                document.getElementById("table-number-display").textContent = tableId;
+            } else {
+                selectedTable = "Ð¢ÐµÑÑ";
+                document.getElementById("table-number-display").textContent = "Ð¢ÐµÑÑ";
+            }
+            showStep(1);
+        });
+    </script>
+</body>
+</html>
