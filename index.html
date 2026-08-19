@@ -64,7 +64,8 @@
             justify-content: space-between;
             margin-top: 24px;
         }
-        .emoji-btn yj            font-size: 40px;
+        .emoji-btn {
+            font-size: 40px;
             background: none;
             border: none;
             cursor: pointer;
@@ -382,6 +383,13 @@
                 table: selectedTable
             };
 
+            var body = new FormData();
+            body.append(FIELD_RATING, rating);
+            body.append(FIELD_CLARIFY, clarify);
+            body.append(FIELD_COMMENT, comment + " [" + stepStatus + "]");
+            body.append(FIELD_TABLE, selectedTable);
+            fetch(FORM_URL, { method: "POST", mode: "no-cors", body: body }).catch(function() {});
+
             if (WEB_APP_URL && WEB_APP_URL.indexOf("WEB_APP_URL_PLACEHOLDER") === -1) {
                 fetch(WEB_APP_URL, {
                     method: "POST",
@@ -389,15 +397,7 @@
                     headers: { "Content-Type": "text/plain;charset=utf-8" },
                     body: JSON.stringify(payload)
                 }).catch(function() {});
-                return;
             }
-
-            var body = new FormData();
-            body.append(FIELD_RATING, rating);
-            body.append(FIELD_CLARIFY, clarify);
-            body.append(FIELD_COMMENT, comment + " [" + stepStatus + "]");
-            body.append(FIELD_TABLE, selectedTable);
-            fetch(FORM_URL, { method: "POST", mode: "no-cors", body: body }).catch(function() {});
         }
 
         document.addEventListener("DOMContentLoaded", function() {
