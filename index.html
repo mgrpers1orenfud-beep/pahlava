@@ -227,10 +227,10 @@
                     <textarea id="guest-text" placeholder="Расскажите честно, что пошло не так... (необязательно)"></textarea>
                     <button class="btn-submit" onclick="sendFinalFeedback()">Отправить отзыв</button>
                 </div>
-                <a href="https://yandex.ru/maps/org/pahlava/146173433967/reviews/"
-                   target="_blank" class="btn-maps yandex-btn" id="yandex-link" onclick="logMapClick('Яндекс Карты')">💛 Вариант 2: Яндекс Карты</a>
-                <a href="https://2gis.ru/orenburg/firm/70000001007497242"
-                   target="_blank" class="btn-maps gis-btn" id="gis-link" onclick="logMapClick('2ГИС')">💚 Вариант 3: Отзыв в 2ГИС</a>
+                <a href="https://yandex.ru/maps/org/146173433967?add-review=true&amp;tab=reviews&amp;z=15"
+                   target="_blank" rel="noopener noreferrer" class="btn-maps yandex-btn" id="yandex-link">💛 Вариант 2: Яндекс Карты</a>
+                <a href="https://2gis.ru/orenburg/firm/70000001007497242/tab/reviews?m=55.131126%2C51.769767%2F16"
+                   target="_blank" rel="noopener noreferrer" class="btn-maps gis-btn" id="gis-link">💚 Вариант 3: Отзыв в 2ГИС</a>
             </div>
             <div id="negative-contact">
                 <p>🙏 Нам очень жаль. Свяжитесь с нами напрямую:</p>
@@ -383,6 +383,21 @@
             submitToGoogleForm(chosenRating, chosenClarify, "Переход на " + mapName, "\u2705 Шаг 3/3: Действие гостя");
         }
 
+        function bindMapLinks() {
+            var yandexLink = document.getElementById("yandex-link");
+            var gisLink = document.getElementById("gis-link");
+            if (yandexLink) {
+                yandexLink.addEventListener("click", function() {
+                    setTimeout(function() { logMapClick("Яндекс Карты"); }, 0);
+                });
+            }
+            if (gisLink) {
+                gisLink.addEventListener("click", function() {
+                    setTimeout(function() { logMapClick("2ГИС"); }, 0);
+                });
+            }
+        }
+
         function sendFinalFeedback() {
             if (!chosenRating || !selectedTable) return;
 
@@ -432,6 +447,7 @@
                 document.getElementById("table-number-display").textContent = "Тест";
             }
             showStep(1);
+            bindMapLinks();
         });
     </script>
 </body>
